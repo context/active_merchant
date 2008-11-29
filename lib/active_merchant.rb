@@ -24,16 +24,18 @@
 $:.unshift(File.dirname(__FILE__))      
 
 # Include rails' active support for all the core extensions we love
-begin
-  require 'active_support'
-rescue LoadError
-  require 'rubygems'
-  
-  if respond_to? :gem
-    gem 'activesupport', ">=2.0.0"
+unless Object.const_defined?(:ActiveSupport)
+  begin
     require 'active_support'
-  else
-    require_gem 'activesupport'
+  rescue LoadError
+    require 'rubygems'
+  
+    if respond_to? :gem
+      gem 'activesupport', ">=2.0.0"
+      require 'active_support'
+    else
+      require_gem 'activesupport'
+    end
   end
 end
 
